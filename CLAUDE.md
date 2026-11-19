@@ -6,7 +6,8 @@ Web-App für das Stundenplanteam: pro Kalenderwoche alle relevanten Termine aus 
 ## Stack & Ort
 - Laravel 13 + Filament 5 + Livewire 4 + SQLite, `afsakar/filament-otp-login` (passwortloser Login per Mail-Code), `sabre/vobject` (iCal parsen, Serien auflösen).
 - **Code liegt nur auf dem Server** (all-inkl, SSH-Host `allinkl`), entwickelt wird per SSH wie bei der Prüfungsformate-App:
-  `~/www/htdocs/w021d878/wochenkalender-app` (Git-Repo `main`, noch **ohne GitHub-Remote**).
+  `~/www/htdocs/w021d878/wochenkalender-app` (Git-Repo `main`, Remote `git@github-wochenplan:jsgibson1986/wochenplan.git`, privat).
+- GitHub-Zugang vom Server: eigener Deploy-Key `~/.ssh/github_wochenplan` (Schreibrecht) über Host-Alias `github-wochenplan` in `~/.ssh/config`. Der Alias ist nötig, weil `~/.ssh/github_deploy` schon fest an das Repo der Prüfungsformate-App gebunden ist (GitHub erlaubt einen Deploy-Key nur pro Repo).
 - Dieser lokale Ordner enthält nur diese Datei. Arbeitsweise: Dateien lokal im Scratchpad schreiben, per `tar | ssh` oder `scp` hochladen, danach `chmod 644/755` (Stolperstein: Windows-Uploads setzen teils zu enge Rechte).
 - Updates: `ssh allinkl 'cd ~/www/htdocs/w021d878/wochenkalender-app && bash deploy.sh'` (composer, migrate, filament:assets, optimize).
 - Tests: `php artisan test` auf dem Server (In-Memory-SQLite, `Http::fake()`, `MAIL_MAILER=array`).
@@ -35,7 +36,7 @@ Web-App für das Stundenplanteam: pro Kalenderwoche alle relevanten Termine aus 
 - `App\Filament\Auth\Login` (OTP-Fixes: `public $step`, robuste Code-Eingabe, Drosselung von `verifyCode`), deutsche Übersetzungen, Login-View, `OtpLoginTest`.
 - `SicherheitsHeader`-Middleware + `<FilesMatch>`-Header-Block in `public/.htaccess`.
 - Mail-Konfiguration (SMTP `mail.ssl-brn.de:587`) aus deren `.env`.
-- Dort ergänzt (19.11.2026, **noch nicht committet**, wartet auf Freigabe): `Termin::toVevent()`, Feed-Route in `routes/web.php`, `services.ics_feed.token`, `tests/Feature/IcsFeedTest.php`. 121 Tests grün.
+- Dort ergänzt (19.11.2026, Commit `bed5c38`, gepusht): `Termin::toVevent()`, Feed-Route in `routes/web.php`, `services.ics_feed.token`, `tests/Feature/IcsFeedTest.php`. 121 Tests grün.
 
 ## Stolpersteine
 - Das Projekt muss physisch unter `www/htdocs/w021d878/` liegen, Domain-Webspace in KAS auf `/wochenkalender-app/public/` (Symlinks scheitern an der Chroot).
@@ -46,8 +47,7 @@ Web-App für das Stundenplanteam: pro Kalenderwoche alle relevanten Termine aus 
 
 ## Offen (Stand 19.11.2026)
 - Subdomain in KAS anlegen und auf `/wochenkalender-app/public/` zeigen lassen, SSL aktivieren. Danach `APP_URL` setzen und `bash deploy.sh` ausführen.
-- Admin-Zugang anlegen: `php artisan wochenplan:einrichten --admin=<mail> --name="<Name>"`.
-- CalDAV-Zugangsdaten für „Fortbildungen“ eintragen und die Quelle aktivieren.
+- CalDAV-Zugangsdaten für „Fortbildungen“ eintragen und die Quelle aktivieren (macht der Admin nach dem ersten Login).
 - KAS-HTTP-Cronjob auf `https://<subdomain>/system/sync?token=<SYNC_TOKEN>` alle 15 Minuten.
-- GitHub-Repo anlegen und als Remote verbinden.
-- Feed-Änderung in der Prüfungsformate-App committen und pushen.
+
+Erledigt: Admin `scj@krsneumarkt.de` angelegt (Name vorläufig „scj“, in /benutzer änderbar), GitHub-Repo verbunden, Feed in der Prüfungsformate-App committet und gepusht.
