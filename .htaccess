@@ -1,0 +1,12 @@
+# Schutz, falls die Domain auf den Projektordner statt auf public/ zeigt:
+# Alle Anfragen gehen nach public/, Projektdateien (composer.json, .env,
+# database/, storage/ …) sind so nie direkt abrufbar. Zeigt die Domain
+# korrekt auf public/, greift dort die eigene public/.htaccess.
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^(.*)$ public/$1 [L]
+</IfModule>
+
+<IfModule !mod_rewrite.c>
+    Require all denied
+</IfModule>

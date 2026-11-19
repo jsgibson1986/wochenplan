@@ -40,6 +40,7 @@ Web-App für das Stundenplanteam: pro Kalenderwoche alle relevanten Termine aus 
 
 ## Stolpersteine
 - Das Projekt muss physisch unter `www/htdocs/w021d878/` liegen, Domain-Webspace in KAS auf `/wochenkalender-app/public/` (Symlinks scheitern an der Chroot).
+- Die Subdomain `wochenplan.pruefungsformate-planung.de` zeigte am 19.11.2026 trotz Eingabe auf den Projektordner statt auf `public/` (composer.json war abrufbar). Deshalb liegt im Projektordner eine `.htaccess`, die alles nach `public/` umleitet. Nicht entfernen. Prüfen per `curl -o /dev/null -w "%{http_code}" https://…/composer.json`, Soll: 404.
 - Kein SSH-Port-Forwarding bei all-inkl, also kein lokaler Browser-Test über einen Tunnel.
 - Quoting über `ssh '…'` mit PHP-Code ist fehleranfällig. Besser kleine PHP-Skripte hochladen, mit `< /dev/null` ausführen und danach löschen. Geheimnisse per STDIN übergeben.
 - `sabre/vobject` `expand()` braucht UIDs bei Serien (Parser vergibt Ersatz-UID) und `Settings::$maxRecurrences` hochgesetzt (alte Tagesserien).
