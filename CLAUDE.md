@@ -30,7 +30,8 @@ Web-App für das Stundenplanteam: pro Kalenderwoche alle relevanten Termine aus 
 - Gemeinsames Raster für Bildschirm und Druck: `resources/views/kalender/raster.blade.php`; Druck: `/druck?von=…&bis=…` (`kalender/druck.blade.php`).
 - CSS ohne Build: `public/css/wochenplan.css` (über Render-Hook eingebunden). Filaments vorkompiliertes Tailwind kennt eigene Klassen nicht, deshalb kein Tailwind in eigenen Views.
 - Ferien/Feiertage färben Tagesspalten. Gleichnamige Ganztagstermine aus dem Schulmanager (z. B. „Weihnachtsferien“) werden dann nicht zusätzlich als Balken gezeigt.
-- Nutzer-Einstellungen (ausgeblendete Quellen, Wochenende) in `users.einstellungen` (JSON).
+- **Liste für Untis** (`/liste`, `App\Filament\Pages\Terminliste`, Logik `App\Services\Kalender\Terminliste`): chronologisch nach KW/Tag, erkannte Klassen (Regex für „7e“, „8cII“, „Jgst. 5–7“, „Jahrgangsstufen 5 - 10“), Haken „in Untis eingetragen“ in `untis_vermerke`. Der Schlüssel ist sha1(Quelle|UID|Beginn), weil `termine` bei jedem Abruf neu geschrieben wird. Termine, die vor dem Zeitraum begonnen haben, sind standardmäßig ausgeblendet. Druck A4 hoch (`/liste/druck`) und CSV mit BOM und Semikolon (`/liste/csv`) im `TerminlisteController`. Ein Stundenraster (Uhrzeit → Unterrichtsstunde) fehlt noch, die Schule hat es nicht hinterlegt.
+- Nutzer-Einstellungen (ausgeblendete Quellen in Wochenansicht/Liste, Wochenende) in `users.einstellungen` (JSON).
 - Rollen: `users.ist_admin` (Quellen/Benutzer verwalten, Policies `QuellePolicy`/`UserPolicy`), sonst nur Lesen. Inaktive Nutzer (`aktiv=false`) kommen nicht rein.
 
 ## Übernommen aus der Prüfungsformate-App (`~/www/htdocs/w021d878/leistungsnachweise-app`)

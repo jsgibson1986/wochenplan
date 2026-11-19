@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\TerminlisteController;
 use App\Services\Kalender\IcsParser;
 use App\Services\Kalender\KalenderSync;
 use App\Services\Kalender\Woche;
@@ -61,3 +62,6 @@ Route::get('/druck', function (Request $request) {
         'zeitzone' => IcsParser::ZEITZONE,
     ]);
 })->middleware(['auth'])->name('druck');
+
+Route::get('/liste/druck', [TerminlisteController::class, 'druck'])->middleware(['auth'])->name('liste.druck');
+Route::get('/liste/csv', [TerminlisteController::class, 'csv'])->middleware(['auth'])->name('liste.csv');

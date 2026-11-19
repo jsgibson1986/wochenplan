@@ -495,6 +495,210 @@ div.wp-termin:hover {
     color: #fff;
 }
 
+/* ---------- Terminliste für Untis ---------- */
+
+.wp-feld {
+    display: inline-flex;
+    gap: 0.4rem;
+    align-items: center;
+    font-size: 0.9rem;
+}
+
+.wp-datum-feld {
+    min-width: 0;
+    width: auto;
+}
+
+.wp-liste-stand {
+    margin-bottom: 1rem;
+    color: var(--wp-text-leise);
+    font-size: 0.9rem;
+}
+
+.wp-liste-stand strong {
+    color: var(--wp-text);
+}
+
+.wp-lw {
+    margin-bottom: 1.5rem;
+}
+
+.wp-lw-titel {
+    margin-bottom: 0.4rem;
+    font-size: 1.1rem;
+    font-weight: 700;
+}
+
+.wp-lt {
+    width: 100%;
+    border-collapse: collapse;
+    border: 1px solid var(--wp-linie);
+    background: var(--wp-flaeche);
+    font-size: 0.9rem;
+}
+
+.wp-lt thead th {
+    padding: 0.45rem 0.6rem;
+    border-bottom: 2px solid var(--wp-linie);
+    background: var(--wp-flaeche-2);
+    color: var(--wp-text-leise);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-align: left;
+    text-transform: uppercase;
+}
+
+.wp-lt-tagkopf th {
+    padding: 0.5rem 0.6rem 0.3rem;
+    border-top: 1px solid var(--wp-linie);
+    background: var(--wp-flaeche-2);
+    font-weight: 700;
+    text-align: left;
+}
+
+.wp-lt-tagkopf .wp-markierung {
+    display: inline-block;
+    margin: 0 0 0 0.5rem;
+    vertical-align: middle;
+}
+
+.wp-lt-tag.is-frei .wp-lt-tagkopf th {
+    background: color-mix(in srgb, #16a34a 10%, var(--wp-mischen));
+}
+
+.wp-lt td {
+    padding: 0.45rem 0.6rem;
+    border-top: 1px solid var(--wp-linie);
+    vertical-align: top;
+}
+
+.wp-lt-zeile td:first-child {
+    box-shadow: inset 4px 0 0 var(--farbe);
+}
+
+.wp-lt-haken {
+    width: 2.5rem;
+    text-align: center !important;
+}
+
+.wp-lt-haken input {
+    width: 1.3rem;
+    height: 1.3rem;
+    cursor: pointer;
+    accent-color: #16a34a;
+}
+
+.wp-lt-zeit {
+    width: 9.5rem;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
+}
+
+.wp-lt-klassen {
+    width: 8rem;
+    font-weight: 600;
+}
+
+.wp-lt-ort {
+    width: 11rem;
+}
+
+.wp-lt-quelle {
+    width: 9rem;
+    color: var(--wp-text-leise);
+    font-size: 0.8rem;
+}
+
+.wp-lt-quelle .wp-punkt {
+    display: inline-block;
+    width: 0.55rem;
+    height: 0.55rem;
+    margin-right: 0.35rem;
+}
+
+.wp-lt-titel {
+    display: block;
+    font-weight: 600;
+}
+
+.wp-lt-beschreibung {
+    display: block;
+    margin-top: 0.15rem;
+    color: var(--wp-text-leise);
+    font-size: 0.8rem;
+}
+
+.wp-lt-zeile.is-erledigt td:not(.wp-lt-haken) {
+    opacity: 0.5;
+}
+
+.wp-lt-zeile.is-erledigt .wp-lt-titel {
+    text-decoration: line-through;
+}
+
+.wp-lt-leer td {
+    color: var(--wp-text-leise);
+    font-size: 0.85rem;
+    font-style: italic;
+}
+
+.wp-kaestchen {
+    font-size: 1.1rem;
+}
+
+@media (max-width: 767px) {
+    .wp-lt thead {
+        display: none;
+    }
+
+    .wp-lt,
+    .wp-lt tbody,
+    .wp-lt tr,
+    .wp-lt td,
+    .wp-lt th {
+        display: block;
+        width: auto;
+    }
+
+    .wp-lt-zeile {
+        position: relative;
+        padding: 0.5rem 0.6rem 0.5rem 3rem;
+        border-top: 1px solid var(--wp-linie);
+        box-shadow: inset 4px 0 0 var(--farbe);
+    }
+
+    .wp-lt-zeile td {
+        padding: 0.1rem 0;
+        border: 0;
+    }
+
+    .wp-lt-zeile td:first-child {
+        position: absolute;
+        top: 0.5rem;
+        left: 0.6rem;
+        box-shadow: none;
+    }
+
+    .wp-lt-zeile .wp-lt-quelle,
+    .wp-lt-zeile .wp-lt-ort {
+        display: inline-block;
+        margin-right: 0.75rem;
+    }
+}
+
+body.wp-druck-liste .wp-druck-steuerung,
+body.wp-druck-liste .wp-druck-blatt {
+    max-width: 210mm;
+}
+
+.wp-druck-blatt {
+    margin: 0 auto;
+    padding: 8mm;
+    background: #fff;
+    box-shadow: 0 1px 4px rgb(0 0 0 / 0.12);
+}
+
 /* ---------- Druckseite ---------- */
 
 body.wp-druckseite {
@@ -626,5 +830,36 @@ body.wp-druckseite {
     .wp-termin {
         break-inside: avoid;
         font-size: 10px;
+    }
+
+    .wp-druck-blatt {
+        max-width: none;
+        padding: 0;
+        box-shadow: none;
+    }
+
+    .wp-lt {
+        font-size: 10px;
+    }
+
+    .wp-lt-tag {
+        break-inside: avoid;
+    }
+
+    .wp-lt td,
+    .wp-lt th {
+        padding: 0.25rem 0.4rem !important;
+    }
+}
+
+/* Terminliste: A4 hoch statt quer */
+@media print {
+    @page liste {
+        size: A4 portrait;
+        margin: 10mm;
+    }
+
+    body.wp-druck-liste {
+        page: liste;
     }
 }

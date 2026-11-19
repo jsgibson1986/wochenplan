@@ -18,12 +18,12 @@ composer install --optimize-autoloader --no-interaction
 php artisan migrate --force
 php artisan filament:assets
 
-# Bewusst KEIN config:cache (und kein `optimize`, das ihn einschließt):
-# Mit gecachter Konfiguration würden Tests die echte Datenbank verwenden.
-php artisan config:clear
-php artisan route:cache
+# Bewusst KEIN config:cache/route:cache/event:cache (und kein `optimize`):
+# Mit gecachter Konfiguration würden Tests die echte Datenbank verwenden,
+# gecachte Routen machen neue Routen bis zum nächsten Deploy unsichtbar.
+# Für eine App dieser Größe ist der Geschwindigkeitsgewinn vernachlässigbar.
+php artisan optimize:clear
 php artisan view:cache
-php artisan event:cache
 
 # scp/tar aus Windows kann zu enge Rechte setzen (Stolperstein all-inkl).
 find public -type d -exec chmod 755 {} \;
