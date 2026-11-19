@@ -12,10 +12,18 @@ if git remote get-url origin >/dev/null 2>&1; then
     git pull --ff-only
 fi
 
-composer install --no-dev --optimize-autoloader --no-interaction
+# Mit Dev-Paketen: Die Tests laufen auf diesem Server (wie bei der
+# Prüfungsformate-App). Dev-Pakete liegen außerhalb von public/.
+composer install --optimize-autoloader --no-interaction
 php artisan migrate --force
 php artisan filament:assets
-php artisan optimize
+
+# Bewusst KEIN config:cache (und kein `optimize`, das ihn einschließt):
+# Mit gecachter Konfiguration würden Tests die echte Datenbank verwenden.
+php artisan config:clear
+php artisan route:cache
+php artisan view:cache
+php artisan event:cache
 
 # scp/tar aus Windows kann zu enge Rechte setzen (Stolperstein all-inkl).
 find public -type d -exec chmod 755 {} \;

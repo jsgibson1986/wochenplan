@@ -61,6 +61,17 @@ class ZugriffTest extends TestCase
         $this->actingAs($this->admin())->get('/benutzer')->assertOk();
     }
 
+    public function test_admin_sieht_cronjob_adresse_mit_token(): void
+    {
+        config(['wochenplan.sync_token' => 'geheimer-token-123']);
+        Filament::setCurrentPanel(Filament::getPanel('admin'));
+
+        Livewire::actingAs($this->admin())
+            ->test(\App\Filament\Resources\Quellen\Pages\ListQuellen::class)
+            ->mountAction('cronjob')
+            ->assertMountedActionModalSee('/system/sync?token=geheimer-token-123');
+    }
+
     public function test_inaktive_benutzer_kommen_nicht_rein(): void
     {
         $this->actingAs(User::factory()->create(['aktiv' => false]))->get('/')->assertForbidden();
