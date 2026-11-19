@@ -1,0 +1,41 @@
+<IfModule mod_rewrite.c>
+    <IfModule mod_negotiation.c>
+        Options -MultiViews -Indexes
+    </IfModule>
+
+    RewriteEngine On
+
+    # Handle Authorization Header
+    RewriteCond %{HTTP:Authorization} .
+    RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+
+    # Handle X-XSRF-Token Header
+    RewriteCond %{HTTP:x-xsrf-token} .
+    RewriteRule .* - [E=HTTP_X_XSRF_TOKEN:%{HTTP:X-XSRF-Token}]
+
+    # Redirect Trailing Slashes If Not A Folder...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_URI} (.+)/$
+    RewriteRule ^ %1 [L,R=301]
+
+    # Send Requests To Front Controller...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [L]
+</IfModule>
+
+# Sicherheits-Header auch für statische Dateien (CSS, Bilder, Filament-Assets),
+# die Apache direkt ausliefert, ohne dass die SicherheitsHeader-Middleware
+# läuft. Per <FilesMatch> auf Dateiendungen beschränkt, damit die CSP der
+# Middleware für über index.php geroutete Seiten nicht überschrieben wird
+# (Stolperstein aus der Prüfungsformate-App).
+<IfModule mod_headers.c>
+    <FilesMatch "\.(js|mjs|css|woff2?|ttf|eot|svg|png|jpe?g|gif|ico|webp|webmanifest|json|html?|map)$">
+        Header always set X-Frame-Options "DENY"
+        Header always set X-Content-Type-Options "nosniff"
+        Header always set Referrer-Policy "strict-origin-when-cross-origin"
+        Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+        Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+        Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"
+    </FilesMatch>
+</IfModule>
